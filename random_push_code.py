@@ -2,12 +2,16 @@ import os
 import random
 import string
 import subprocess
-from datetime import datetime 
+from datetime import datetime
 
 # GitHub authentication details
-GITHUB_USER = 'your_github_username'
-GITHUB_REPO = 'your_github_repo'
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')  # Use GitHub Actions secret
+GITHUB_USER = 'Yosiad'  # Replace with your actual GitHub username
+GITHUB_REPO = 'github_actions'  # Replace with your actual repository name
+
+# Fetch the token from environment variables
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
+if not GITHUB_TOKEN:
+    raise ValueError("Error: GITHUB_TOKEN environment variable is not set.")
 
 # Generate random code
 def generate_random_code():
@@ -26,9 +30,13 @@ def commit_and_push_changes():
     # Git commands to commit and push
     subprocess.run(['git', 'add', '.'], check=True)
     subprocess.run(['git', 'commit', '-m', f'Random commit {datetime.now()}'], check=True)
-    subprocess.run(['git', 'push', f'https://{GITHUB_USER}:{GITHUB_TOKEN}@github.com/{GITHUB_USER}/{GITHUB_REPO}.git', 'main'], check=True)
+    
+    # Push URL with authentication token in the URL
+    push_url = f'https://{GITHUB_USER}:{GITHUB_TOKEN}@github.com/{GITHUB_USER}/{GITHUB_REPO}.git'
+    subprocess.run(['git', 'push', push_url, 'main'], check=True)
+
     print(f"Changes pushed at {datetime.now()}")
 
-# Run the function to commit and push 
+# Run the function to commit and push
 if __name__ == '__main__':
-    commit_and_push_changes() 
+    commit_and_push_changes()
