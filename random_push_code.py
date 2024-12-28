@@ -33,7 +33,7 @@ def commit_and_push_changes():
     
     # Push URL with authentication token in the URL
     push_url = f'https://{GITHUB_USER}:{GITHUB_TOKEN}@github.com/{GITHUB_USER}/{GITHUB_REPO}.git'
-    subprocess.run(['git', 'push', push_url, 'main'], check=True)
+    subprocess.run(['git', 'push', push_url, 'newBranch'], check=True)
 
     print(f"Changes pushed at {datetime.now()}")
 
